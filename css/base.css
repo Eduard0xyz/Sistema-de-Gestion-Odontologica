@@ -1,0 +1,55 @@
+
+/* estilo mínimo */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background-color: #eef4f7;
+    color: #263544;
+}
+
+/* Barra de navegación */
+header {
+    background-color: #1b7f9e;
+    color: #fff;
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 22px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+nav a:hover,
+nav a.activo {
+    background-color: #145d75;
+}
+
+/* Pie de página */
+footer {
+    text-align: center;
+    padding: 15px;
+    color: #6c8291;
+    font-size: 13px;
+}
