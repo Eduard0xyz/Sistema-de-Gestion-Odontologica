@@ -68,18 +68,18 @@
             <tbody>
                 <tr>
                     <td>71234567</td>
-                    <td>Ana</td>
-                    <td>Rojas Pérez</td>
+                    <td>Piero</td>
+                    <td>Avelino Martin</td>
                     <td>987654321</td>
-                    <td>ana.rojas@correo.com</td>
+                    <td>piero.avelino@correo.com</td>
                     <td><a href="historial.php">Ver historial</a></td>
                 </tr>
                 <tr>
                     <td>76543210</td>
-                    <td>Luis</td>
-                    <td>Torres Vega</td>
+                    <td>Chichiko</td>
+                    <td>Velde</td>
                     <td>912345678</td>
-                    <td>luis.torres@correo.com</td>
+                    <td>chichiko.velde@correo.com</td>
                     <td><a href="historial.php">Ver historial</a></td>
                 </tr>
             </tbody>
