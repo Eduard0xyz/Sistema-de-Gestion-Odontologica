@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+.pagina-citas {
+    font-family: 'Inter', sans-serif;
+    background: #f4f6f8;
+    color: #2d3436;
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Secciones */
+.seccion-cita {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.seccion-cita h2 {
+    color: #1b4d43;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.linea-decorativa {
+    width: 40px;
+    height: 3px;
+    background: #e07a5f;
+    margin-bottom: 1.2rem;
+    border-radius: 2px;
+}
+
+/* Formularios */
+.form-cita,
+.form-gestion {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    align-items: end;
+}
+
+.grupo-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.grupo-campo label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #636e72;
+    text-transform: uppercase;
+}
+
+.grupo-campo input,
+.grupo-campo select,
+.grupo-campo textarea {
+    padding: 0.6rem;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+}
+
+.campo-ancho {
+    grid-column: 1 / -1;
+}
+
+/* Botones */
+.btn-agendar,
+.btn-reprogramar,
+.btn-cancelar {
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    width: 100%;
+}
+
+.btn-agendar { background: #2a9d8f; }
+.btn-reprogramar { background: #f4a261; }
+.btn-cancelar { background: #c0392b; }
+
+/* Tabla */
+.tabla-citas {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.tabla-citas thead {
+    background: #1b4d43;
+    color: #fff;
+}
+
+.tabla-citas th,
+.tabla-citas td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tabla-citas tbody tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+/* Estados */
+.estado {
+    padding: 0.3rem 0.7rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.estado.programada { background: #d4edda; color: #155724; }
+.estado.reprogramada { background: #fff3cd; color: #856404; }
+.estado.cancelada { background: #f8d7da; color: #721c24; text-decoration: line-through; }
+
+/* Responsive */
+@media (max-width: 640px) {
+    .form-cita, .form-gestion { grid-template-columns: 1fr; }
+}
