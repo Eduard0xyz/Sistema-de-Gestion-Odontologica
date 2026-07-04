@@ -1,9 +1,157 @@
 /* ===========================================================
-   pacientes.css - Estilos EXCLUSIVOS de la página pacientes.html
-   Aquí cada integrante del equipo puede agregar o modificar
-   estilos sin afectar el trabajo de los demás.
-   Este archivo se carga DESPUÉS de base.css, así que puede
-   sobrescribir cualquier estilo general si es necesario.
+   pacientes.css - Estilo único para la página de Pacientes
    =========================================================== */
 
-/* Agrega aquí tus estilos personalizados para pacientes.html */
+main {
+    max-width: 950px;
+    margin: 35px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+main h2 {
+    display: inline-block;
+    background-color: #5b3ea5;
+    color: white;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+main form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 25px;
+    background-color: #ffffff;
+    border: none;
+    border-left: 5px solid #5b3ea5;
+    border-radius: 4px;
+    padding: 25px 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(91, 62, 165, 0.12);
+}
+
+.campo-completo {
+    grid-column: 1 / -1;
+}
+
+main form div {
+    display: flex;
+    flex-direction: column;
+}
+
+main form label {
+    font-weight: 700;
+    color: #5b3ea5;
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+main form input {
+    padding: 10px 12px;
+    border: none;
+    border-bottom: 2px solid #ddd;
+    border-radius: 0;
+    font-size: 0.95rem;
+    background-color: #faf9fc;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+main form input:focus {
+    outline: none;
+    border-bottom-color: #5b3ea5;
+    background-color: #ffffff;
+}
+
+main form button {
+    grid-column: 1 / -1;
+    justify-self: start;
+    background-color: #ff8a3d;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+main form button:hover {
+    background-color: #e6752b;
+    transform: translateY(-2px);
+}
+
+main table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin-top: 10px;
+}
+
+main table thead {
+    display: none;
+}
+
+main table tbody tr {
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+}
+
+main table td {
+    padding: 14px 12px;
+    position: relative;
+}
+
+main table td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #5b3ea5;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+main table tbody tr:hover {
+    box-shadow: 0 4px 14px rgba(91, 62, 165, 0.18);
+}
+
+main table a {
+    color: #ff8a3d;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+main table a:hover {
+    text-decoration: underline;
+}
+
+@media (min-width: 700px) {
+    main table thead {
+        display: table-header-group;
+    }
+    main table thead th {
+        background-color: #5b3ea5;
+        color: white;
+        padding: 12px;
+        text-align: left;
+    }
+    main table td::before {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    main form {
+        grid-template-columns: 1fr;
+    }
+}

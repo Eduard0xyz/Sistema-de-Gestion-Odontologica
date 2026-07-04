@@ -11,6 +11,15 @@
     <?php include 'incluir/header.php'; ?>
 
     <main>
+        <h2>Buscar Paciente</h2>
+        <form action="../php/procesar/procesar_paciente.php" method="GET" style="grid-template-columns: 3fr 1fr;">
+            <div>
+                <label for="criterio">Buscar por DNI o Apellido</label>
+                <input type="text" id="criterio" name="criterio" placeholder="Ingrese DNI o apellido">
+            </div>
+            <button type="submit" style="grid-column:auto; align-self:end;">Buscar</button>
+        </form>
+
         <h2>Registrar Paciente</h2>
         <form action="../php/procesar/procesar_paciente.php" method="POST">
             <div>
@@ -42,15 +51,6 @@
                 <input type="text" id="direccion" name="direccion" placeholder="Dirección del paciente">
             </div>
             <button type="submit">Registrar Paciente</button>
-        </form>
-
-        <h2>Buscar Paciente</h2>
-        <form action="../php/procesar/procesar_paciente.php" method="GET" style="grid-template-columns: 3fr 1fr;">
-            <div>
-                <label for="criterio">Buscar por DNI o Apellido</label>
-                <input type="text" id="criterio" name="criterio" placeholder="Ingrese DNI o apellido">
-            </div>
-            <button type="submit" style="grid-column:auto; align-self:end;">Buscar</button>
         </form>
 
         <h2>Lista de Pacientes</h2>
