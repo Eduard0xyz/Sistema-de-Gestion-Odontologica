@@ -1,22 +1,19 @@
-<?php
-if (!isset($paginaActiva)) {
-    $paginaActiva = '';
-}
-
-function claseActiva($nombre, $paginaActiva) {
-    return $nombre === $paginaActiva ? 'class="activo"' : '';
-}
-?>
 <header>
-    <h1> Clínica Dental - Sistema de Gestión</h1>
     <nav>
-        <ul>
-            <li><a href="index.php" <?= claseActiva('index', $paginaActiva) ?>>Inicio</a></li>
-            <li><a href="pacientes.php" <?= claseActiva('pacientes', $paginaActiva) ?>>Pacientes</a></li>
-            <li><a href="odontologos.php" <?= claseActiva('odontologos', $paginaActiva) ?>>Odontólogos</a></li>
-            <li><a href="citas.php" <?= claseActiva('citas', $paginaActiva) ?>>Citas</a></li>
-            <li><a href="historial.php" <?= claseActiva('historial', $paginaActiva) ?>>Historial Clínico</a></li>
-            <li><a href="login.php" <?= claseActiva('login', $paginaActiva) ?>>Iniciar Sesión</a></li>
-        </ul>
+        <div class="nav-container">
+            <div class="logo">
+                <h1>Clínica Dental - Sistema de Gestión</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.php" <?php echo ($paginaActiva == 'inicio') ? 'class="activo"' : ''; ?>>Inicio</a></li>
+                <li><a href="pacientes.php" <?php echo ($paginaActiva == 'pacientes') ? 'class="activo"' : ''; ?>>Pacientes</a></li>
+                <li><a href="odontologo.php" <?php echo ($paginaActiva == 'odontologos') ? 'class="activo"' : ''; ?>>Odontólogos</a></li>
+                <li><a href="citas.php" <?php echo ($paginaActiva == 'citas') ? 'class="activo"' : ''; ?>>Citas</a></li>
+                <li><a href="historial.php" <?php echo ($paginaActiva == 'historial') ? 'class="activo"' : ''; ?>>Historial Clínico</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="login.php" class="btn-login">Iniciar Sesión</a>
+            </div>
+        </div>
     </nav>
 </header>

@@ -2,7 +2,7 @@
 class Conexion {
 
     private $host = "localhost";
-    private $nombre_bd = "clinica_dental";
+    private $nombre_bd = "clinica_dental22";
     private $usuario = "root";
     private $password = "";
     private $charset = "utf8mb4";
