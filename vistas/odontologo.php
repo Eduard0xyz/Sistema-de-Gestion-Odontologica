@@ -1,14 +1,11 @@
 <?php 
 $paginaActiva = 'odontologos'; 
 
-// Incluir la clase Odontologo
 require_once __DIR__ . '/../php/clases/Odontologo.php';
 
-// Crear instancia y obtener lista de odontólogos
 $odontologo = new Odontologo();
 $odontologos = $odontologo->listarOdontologos();
 
-// Verificar mensaje de éxito/error
 $mensaje = '';
 if (isset($_GET['mensaje'])) {
     if ($_GET['mensaje'] === 'exito') {
