@@ -1,9 +1,4 @@
 <?php
-/**
- * Clase Recordatorio
- * Gestiona el envío automático de recordatorios de citas próximas,
- * según el diagrama de secuencia "Enviar Recordatorio Automático".
- */
 require_once _DIR_ . '/../config/conexion.php';
 
 class Recordatorio {
@@ -12,19 +7,16 @@ class Recordatorio {
 
     public $id_recordatorio;
     public $id_cita;
-    public $medio; // Correo o SMS
+    public $medio; 
     public $fecha_envio;
-    public $estado; // Pendiente, Enviado, Fallido
+    public $estado; 
 
     public function __construct() {
         $con = new Conexion();
         $this->conexion = $con->conectar();
     }
 
-    /**
-     * Obtiene las citas programadas dentro de las próximas 24 horas
-     * que aún no tienen recordatorio enviado.
-     */
+    
     public function obtenerCitasProximas() {
         $sql = "SELECT c.id_cita, c.fecha, c.hora, p.nombres, p.apellidos, p.correo, p.telefono
                 FROM cita c
@@ -37,9 +29,6 @@ class Recordatorio {
         return $stmt->fetchAll();
     }
 
-    /**
-     * Registra el envío de un recordatorio y actualiza su estado.
-     */
     public function registrarEnvio() {
         $sql = "INSERT INTO recordatorio (id_cita, medio, fecha_envio, estado)
                 VALUES (:id_cita, :medio, :fecha_envio, :estado)";
