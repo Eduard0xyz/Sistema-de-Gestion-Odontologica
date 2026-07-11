@@ -1,4 +1,23 @@
-<?php $paginaActiva = 'odontologos'; ?>
+<?php 
+$paginaActiva = 'odontologos'; 
+
+// Incluir la clase Odontologo
+require_once __DIR__ . '/../php/clases/Odontologo.php';
+
+// Crear instancia y obtener lista de odontólogos
+$odontologo = new Odontologo();
+$odontologos = $odontologo->listarOdontologos();
+
+// Verificar mensaje de éxito/error
+$mensaje = '';
+if (isset($_GET['mensaje'])) {
+    if ($_GET['mensaje'] === 'exito') {
+        $mensaje = '<div class="mensaje-exito">Odontólogo registrado correctamente</div>';
+    } elseif ($_GET['mensaje'] === 'error') {
+        $mensaje = '<div class="mensaje-error">Error al registrar el odontólogo</div>';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,6 +30,8 @@
     <?php include 'incluir/header.php'; ?>
 
     <main>
+        <?php echo $mensaje; ?>
+
         <h2>Registrar Odontólogo</h2>
 
         <form action="../php/procesar/controladorOdontologo.php" method="POST">
@@ -48,8 +69,15 @@
             <div>
                 <label for="id_odontologo">Odontólogo</label>
                 <select id="id_odontologo" name="id_odontologo">
-                    <option value="1">Dr. Carlos Mendoza</option>
-                    <option value="2">Dra. Rosa Fernández</option>
+                    <?php if (empty($odontologos)): ?>
+                        <option value="">No hay odontólogos registrados</option>
+                    <?php else: ?>
+                        <?php foreach ($odontologos as $odo): ?>
+                            <option value="<?php echo $odo['id_odontologo']; ?>">
+                                Dr./Dra. <?php echo htmlspecialchars($odo['nombres'] . ' ' . $odo['apellidos']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
             </div>
             <div>
@@ -67,6 +95,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Especialidad</th>
@@ -75,20 +104,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Carlos</td>
-                    <td>Mendoza Ruiz</td>
-                    <td>Ortodoncia</td>
-                    <td>945612378</td>
-                    <td>c.mendoza@clinicadental.com</td>
-                </tr>
-                <tr>
-                    <td>Rosa</td>
-                    <td>Fernández Luna</td>
-                    <td>Odontología general</td>
-                    <td>956123478</td>
-                    <td>r.fernandez@clinicadental.com</td>
-                </tr>
+                <?php if (empty($odontologos)): ?>
+                    <tr>
+                        <td colspan="6" style="text-align: center;">No hay odontólogos registrados</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($odontologos as $odo): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($odo['id_odontologo']); ?></td>
+                            <td><?php echo htmlspecialchars($odo['nombres']); ?></td>
+                            <td><?php echo htmlspecialchars($odo['apellidos']); ?></td>
+                            <td><?php echo htmlspecialchars($odo['especialidad']); ?></td>
+                            <td><?php echo htmlspecialchars($odo['telefono']); ?></td>
+                            <td><?php echo htmlspecialchars($odo['correo']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </main>
