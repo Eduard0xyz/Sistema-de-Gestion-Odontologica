@@ -73,4 +73,26 @@ class HistorialClinico {
 
         return $stmt->execute();
     }
+
+    /**
+     * Obtiene los datos de un paciente por su ID.
+     */
+    public function obtenerPacientePorId($id_paciente) {
+        $sql = "SELECT * FROM paciente WHERE id_paciente = :id_paciente";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bindParam(':id_paciente', $id_paciente, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Obtiene los datos de un paciente por su DNI.
+     */
+    public function obtenerPacientePorDni($dni) {
+        $sql = "SELECT * FROM paciente WHERE dni = :dni";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bindParam(':dni', $dni);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
