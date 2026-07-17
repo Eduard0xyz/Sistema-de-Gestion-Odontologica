@@ -7,7 +7,6 @@ require_once __DIR__ . '/../php/clases/recordatorio.php';
 $recordatorioObj = new Recordatorio();
 $historial = $recordatorioObj->listarHistorial(50);
 
-// El resumen de la última ejecución viaja por sesión (Post/Redirect/Get)
 $resumen = null;
 if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'ejecutado' && isset($_SESSION['resumen_recordatorios'])) {
     $resumen = $_SESSION['resumen_recordatorios'];
@@ -27,7 +26,7 @@ if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'ejecutado' && isset($_SESSI
 
     <main class="pagina-recordatorios">
 
-        <!-- SECCIÓN: EJECUTAR ENVÍO -->
+      
         <section class="seccion-recordatorio">
             <h2>Recordatorios Automáticos de Citas</h2>
             <div class="linea-decorativa"></div>
@@ -43,13 +42,13 @@ if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'ejecutado' && isset($_SESSI
                 </div>
                 <div class="grupo-campo">
                     <button type="submit" class="btn-enviar-recordatorios">
-                        <span>✉️</span> Enviar recordatorios ahora
+                        <span></span> Enviar recordatorios 
                     </button>
                 </div>
             </form>
         </section>
 
-        <!-- SECCIÓN: RESUMEN DE LA ÚLTIMA EJECUCIÓN -->
+     
         <?php if ($resumen !== null): ?>
         <section class="seccion-recordatorio">
             <h2>Resultado del último envío</h2>
@@ -80,7 +79,7 @@ if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'ejecutado' && isset($_SESSI
         </section>
         <?php endif; ?>
 
-        <!-- SECCIÓN: HISTORIAL -->
+       
         <section class="seccion-recordatorio">
             <h2>Historial de Recordatorios</h2>
             <div class="linea-decorativa"></div>

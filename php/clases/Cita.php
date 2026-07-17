@@ -1,10 +1,4 @@
 <?php
-/**
- * Clase Cita
- * Gestiona el ciclo de vida de una cita odontológica: agendar,
- * listar, reprogramar y cancelar. Sigue el mismo patrón que las
- * demás clases del sistema (Paciente, Odontologo, HistorialClinico).
- */
 require_once __DIR__ . '/../config/conexion.php';
 
 class Cita {
@@ -24,9 +18,6 @@ class Cita {
         $this->conexion = $con->conectar();
     }
 
-    /**
-     * Registra una nueva cita con estado 'Programada'.
-     */
     public function registrarCita() {
         $sql = "INSERT INTO cita (id_paciente, id_odontologo, fecha, hora, motivo, estado)
                 VALUES (:id_paciente, :id_odontologo, :fecha, :hora, :motivo, 'Programada')";
@@ -40,10 +31,7 @@ class Cita {
         return $stmt->execute();
     }
 
-    /**
-     * Verifica si el odontólogo ya tiene una cita activa (Programada o
-     * Reprogramada) en esa fecha y hora, para evitar choques de agenda.
-     */
+
     public function existeChoqueDeHorario($id_odontologo, $fecha, $hora, $id_cita_excluir = 0) {
         $sql = "SELECT COUNT(*) FROM cita
                 WHERE id_odontologo = :id_odontologo
@@ -61,10 +49,7 @@ class Cita {
         return $stmt->fetchColumn() > 0;
     }
 
-    /**
-     * Lista todas las citas con los datos de paciente y odontólogo,
-     * ordenadas de la más próxima/reciente a la más antigua.
-     */
+
     public function listarCitas() {
         $sql = "SELECT c.id_cita, c.fecha, c.hora, c.motivo, c.estado,
                        p.nombres AS paciente_nombres, p.apellidos AS paciente_apellidos,
@@ -79,10 +64,7 @@ class Cita {
         return $stmt->fetchAll();
     }
 
-    /**
-     * Obtiene una cita puntual por su ID (para validar antes de
-     * reprogramar o cancelar).
-     */
+  
     public function obtenerCitaPorId($id_cita) {
         $sql = "SELECT * FROM cita WHERE id_cita = :id_cita";
         $stmt = $this->conexion->prepare($sql);
@@ -92,10 +74,7 @@ class Cita {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Reprograma una cita existente: cambia fecha/hora y marca el
-     * estado como 'Reprogramada'.
-     */
+
     public function reprogramarCita($id_cita, $nueva_fecha, $nueva_hora) {
         $sql = "UPDATE cita SET fecha = :fecha, hora = :hora, estado = 'Reprogramada'
                 WHERE id_cita = :id_cita";
@@ -107,9 +86,6 @@ class Cita {
         return $stmt->execute();
     }
 
-    /**
-     * Cancela una cita existente.
-     */
     public function cancelarCita($id_cita) {
         $sql = "UPDATE cita SET estado = 'Cancelada' WHERE id_cita = :id_cita";
         $stmt = $this->conexion->prepare($sql);
