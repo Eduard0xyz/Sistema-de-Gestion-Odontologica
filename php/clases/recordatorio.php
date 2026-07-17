@@ -18,11 +18,6 @@ class Recordatorio{
         $this->conexion = $con->conectar();
     }
 
-    /**
-     * Obtiene las citas (Programadas o Reprogramadas) que caen dentro de
-     * "$diasAntes" dias a partir de hoy (por defecto 1 dia = "manana"),
-     * junto a los datos de contacto del paciente y del odontologo asignado.
-     */
     public function obtenerCitasProximas($diasAntes = 1) {
         $sql = "SELECT c.id_cita, c.fecha, c.hora,
                        p.nombres AS paciente_nombres, p.apellidos AS paciente_apellidos,
@@ -41,12 +36,6 @@ class Recordatorio{
         return $stmt->fetchAll();
     }
 
-    /**
-     * Verifica si una cita ya tiene un recordatorio marcado como "Enviado",
-     * para no notificar dos veces al paciente si el script se ejecuta
-     * mas de una vez el mismo dia (por ejemplo, si la tarea programada
-     * corre de nuevo o alguien pulsa el boton dos veces).
-     */
     public function yaFueEnviado($id_cita) {
         $sql = "SELECT COUNT(*) FROM recordatorio WHERE id_cita = :id_cita AND estado = 'Enviado'";
         $stmt = $this->conexion->prepare($sql);
@@ -56,11 +45,6 @@ class Recordatorio{
         return $stmt->fetchColumn() > 0;
     }
 
-    /**
-     * Lista el historial de recordatorios ya registrados (enviados o
-     * fallidos), con los datos de la cita y del paciente, del más
-     * reciente al más antiguo. Se usa en la pantalla de recordatorios.
-     */
     public function listarHistorial($limite = 50) {
         $limite = intval($limite);
         $sql = "SELECT r.id_recordatorio, r.medio, r.fecha_envio, r.estado,
@@ -90,14 +74,6 @@ class Recordatorio{
         return $stmt->execute();
     }
 
-    /**
-     * Arma y envia, por correo electronico, el recordatorio de una cita
-     * puntual. El envio lo hace EnviadorSMTP (php/clases/EnviadorSMTP.php),
-     * un cliente SMTP propio en PHP puro: sin Composer, sin PHPMailer, y
-     * sin necesidad de instalar ni configurar nada en el servidor.
-     * Devuelve true si el servidor de correo confirmo la entrega, false
-     * si algo fallo.
-     */
     public function enviarCorreo($cita) {
         $nombrePaciente   = htmlspecialchars($cita['paciente_nombres'] . ' ' . $cita['paciente_apellidos']);
         $nombreOdontologo = htmlspecialchars($cita['odontologo_nombres'] . ' ' . $cita['odontologo_apellidos']);
@@ -134,13 +110,6 @@ class Recordatorio{
         return $enviadoOk;
     }
 
-    /**
-     * Recorre las citas proximas, envia el correo a cada paciente que tenga
-     * un correo registrado y aun no haya recibido su recordatorio, y deja
-     * constancia del resultado en la tabla "recordatorio".
-     *
-     * @return array ['enviados' => int, 'fallidos' => int, 'omitidos' => int, 'detalle' => string[]]
-     */
     public function enviarRecordatorios($diasAntes = 1) {
         $resumen = ['enviados' => 0, 'fallidos' => 0, 'omitidos' => 0, 'detalle' => []];
         $citas = $this->obtenerCitasProximas($diasAntes);
