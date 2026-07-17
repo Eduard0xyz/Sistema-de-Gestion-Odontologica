@@ -14,7 +14,6 @@ $odontologos = $odontologoObj->listarOdontologos();
 $citaObj = new Cita();
 $citas = $citaObj->listarCitas();
 
-// Mensajes de respuesta (patrón Post/Redirect/Get, igual que historial.php)
 $mensajeHtml = '';
 if (isset($_GET['mensaje'])) {
     switch ($_GET['mensaje']) {
@@ -63,7 +62,7 @@ if (isset($_GET['mensaje'])) {
 
         <?php echo $mensajeHtml; ?>
 
-        <!-- SECCIÓN: AGENDAR -->
+        
         <section class="seccion-cita">
             <h2>Agendar Cita</h2>
             <div class="linea-decorativa"></div>
@@ -113,13 +112,13 @@ if (isset($_GET['mensaje'])) {
 
                 <div class="grupo-campo campo-boton">
                     <button type="submit" class="btn-agendar">
-                        <span>📅</span> Agendar Cita
+                        <span></span> Agendar Cita
                     </button>
                 </div>
             </form>
         </section>
 
-        <!-- SECCIÓN: REPROGRAMAR / CANCELAR -->
+        
         <section class="seccion-cita seccion-gestion">
             <h2>Reprogramar / Cancelar Cita</h2>
             <div class="linea-decorativa"></div>
@@ -142,7 +141,7 @@ if (isset($_GET['mensaje'])) {
 
                 <div class="grupo-campo campo-boton">
                     <button type="submit" name="accion" value="reprogramar" class="btn-reprogramar">
-                        <span>🔄</span> Reprogramar
+                        <span></span> Reprogramar
                     </button>
                 </div>
 

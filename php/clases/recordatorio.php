@@ -12,6 +12,7 @@ class Recordatorio{
     public $medio;
     public $fecha_envio;
     public $estado;
+    public $ultimoErrorEnvio = '';
 
     public function __construct() {
         $con = new Conexion();
@@ -36,6 +37,7 @@ class Recordatorio{
         return $stmt->fetchAll();
     }
 
+  
     public function yaFueEnviado($id_cita) {
         $sql = "SELECT COUNT(*) FROM recordatorio WHERE id_cita = :id_cita AND estado = 'Enviado'";
         $stmt = $this->conexion->prepare($sql);
@@ -45,6 +47,7 @@ class Recordatorio{
         return $stmt->fetchColumn() > 0;
     }
 
+ 
     public function listarHistorial($limite = 50) {
         $limite = intval($limite);
         $sql = "SELECT r.id_recordatorio, r.medio, r.fecha_envio, r.estado,
@@ -74,7 +77,13 @@ class Recordatorio{
         return $stmt->execute();
     }
 
+ 
     public function enviarCorreo($cita) {
+        if (!SMTP_CONFIGURADO) {
+            $this->ultimoErrorEnvio = 'El correo de la clínica todavía no está configurado. Edita php/config/correo.php y reemplaza SMTP_USUARIO y SMTP_PASSWORD con los datos reales.';
+            return false;
+        }
+
         $nombrePaciente   = htmlspecialchars($cita['paciente_nombres'] . ' ' . $cita['paciente_apellidos']);
         $nombreOdontologo = htmlspecialchars($cita['odontologo_nombres'] . ' ' . $cita['odontologo_apellidos']);
 
@@ -102,6 +111,8 @@ class Recordatorio{
 
         $enviador  = new EnviadorSMTP(SMTP_HOST, SMTP_PUERTO, SMTP_USUARIO, SMTP_PASSWORD, SMTP_NOMBRE_REMITENTE);
         $enviadoOk = $enviador->enviar($cita['correo'], $nombrePaciente, $asunto, $cuerpo);
+
+        $this->ultimoErrorEnvio = $enviador->ultimoError;
 
         if (!$enviadoOk) {
             error_log('No se pudo enviar el recordatorio de la cita #' . $cita['id_cita'] . ' a ' . $cita['correo'] . ': ' . $enviador->ultimoError);
@@ -142,7 +153,7 @@ class Recordatorio{
                 $resumen['detalle'][] = "Cita #{$cita['id_cita']} ({$nombreCompleto}): recordatorio enviado a {$cita['correo']}.";
             } else {
                 $resumen['fallidos']++;
-                $resumen['detalle'][] = "Cita #{$cita['id_cita']} ({$nombreCompleto}): fallo al enviar el correo a {$cita['correo']}.";
+                $resumen['detalle'][] = "Cita #{$cita['id_cita']} ({$nombreCompleto}): fallo al enviar el correo a {$cita['correo']}. Motivo: {$this->ultimoErrorEnvio}";
             }
         }
 

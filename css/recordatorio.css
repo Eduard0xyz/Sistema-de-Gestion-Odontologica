@@ -18,7 +18,7 @@
 }
 
 .seccion-recordatorio h2 {
-    color: #1b4d43;
+    color: #0f75ac;
     font-size: 1.4rem;
     margin-bottom: 0.5rem;
 }
@@ -67,11 +67,11 @@
     font-weight: 600;
     cursor: pointer;
     color: #fff;
-    background: #2a9d8f;
+    background: #1271a5;
 }
 
 .btn-enviar-recordatorios:hover {
-    background: #21867a;
+    background: #1c83af;
 }
 
 .nota-info {
@@ -80,7 +80,7 @@
     margin-top: 0.8rem;
 }
 
-/* Resumen de ejecución */
+
 .resumen-envio {
     display: flex;
     gap: 1rem;
