@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-.pagina-citas {
+
+.pagina-recordatorios {
     font-family: 'Inter', sans-serif;
     background: #f4f6f8;
     color: #2d3436;
@@ -8,8 +9,7 @@
     margin: 0 auto;
 }
 
-/* Secciones */
-.seccion-cita {
+.seccion-recordatorio {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -17,7 +17,7 @@
     margin-bottom: 1.5rem;
 }
 
-.seccion-cita h2 {
+.seccion-recordatorio h2 {
     color: #1b4d43;
     font-size: 1.4rem;
     margin-bottom: 0.5rem;
@@ -31,11 +31,9 @@
     border-radius: 2px;
 }
 
-/* Formularios */
-.form-cita,
-.form-gestion {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+.form-recordatorio {
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     align-items: end;
 }
@@ -53,9 +51,8 @@
     text-transform: uppercase;
 }
 
-.grupo-campo input,
 .grupo-campo select,
-.grupo-campo textarea {
+.grupo-campo input {
     padding: 0.6rem;
     border: 1.5px solid #ccc;
     border-radius: 6px;
@@ -63,64 +60,97 @@
     font-family: inherit;
 }
 
-.campo-ancho {
-    grid-column: 1 / -1;
-}
-
-/* Botones */
-.btn-agendar,
-.btn-reprogramar,
-.btn-cancelar {
-    padding: 0.7rem 1.2rem;
+.btn-enviar-recordatorios {
+    padding: 0.7rem 1.4rem;
     border: none;
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
     color: #fff;
-    width: 100%;
+    background: #2a9d8f;
 }
 
-.btn-agendar { background: #2a9d8f; }
-.btn-reprogramar { background: #f4a261; }
-.btn-cancelar { background: #c0392b; }
+.btn-enviar-recordatorios:hover {
+    background: #21867a;
+}
 
-/* Tabla */
-.tabla-citas {
+.nota-info {
+    font-size: 0.85rem;
+    color: #78909c;
+    margin-top: 0.8rem;
+}
+
+/* Resumen de ejecución */
+.resumen-envio {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.tarjeta-resumen {
+    flex: 1;
+    min-width: 140px;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.tarjeta-resumen .numero {
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: block;
+}
+
+.tarjeta-resumen.enviados { background: #d4edda; color: #155724; }
+.tarjeta-resumen.fallidos { background: #f8d7da; color: #721c24; }
+.tarjeta-resumen.omitidos { background: #fff3cd; color: #856404; }
+
+.detalle-envio {
+    list-style: none;
+    font-size: 0.9rem;
+    color: #455a64;
+}
+
+.detalle-envio li {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #eef1f4;
+}
+
+/* Tabla de historial */
+.tabla-recordatorios {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
 }
 
-.tabla-citas thead {
+.tabla-recordatorios thead {
     background: #1b4d43;
     color: #fff;
 }
 
-.tabla-citas th,
-.tabla-citas td {
+.tabla-recordatorios th,
+.tabla-recordatorios td {
     padding: 0.8rem 1rem;
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
 }
 
-.tabla-citas tbody tr:nth-child(even) {
+.tabla-recordatorios tbody tr:nth-child(even) {
     background: #f8f9fa;
 }
 
-/* Estados */
-.estado {
+.estado-recordatorio {
     padding: 0.3rem 0.7rem;
     border-radius: 15px;
     font-size: 0.75rem;
     font-weight: 600;
 }
 
-.estado.programada { background: #d4edda; color: #155724; }
-.estado.reprogramada { background: #fff3cd; color: #856404; }
-.estado.cancelada { background: #f8d7da; color: #721c24; text-decoration: line-through; }
-.estado.atendida { background: #d1ecf1; color: #0c5460; }
+.estado-recordatorio.enviado { background: #d4edda; color: #155724; }
+.estado-recordatorio.fallido { background: #f8d7da; color: #721c24; }
+.estado-recordatorio.pendiente { background: #fff3cd; color: #856404; }
 
-/* Mensajes de retroalimentación (patrón usado en historial.php) */
 .mensaje-exito {
     background: #d4edda;
     color: #155724;
@@ -128,7 +158,6 @@
     padding: 0.8rem 1.2rem;
     border-radius: 6px;
     margin-bottom: 1.5rem;
-    max-width: 1000px;
 }
 
 .mensaje-error {
@@ -138,10 +167,8 @@
     padding: 0.8rem 1.2rem;
     border-radius: 6px;
     margin-bottom: 1.5rem;
-    max-width: 1000px;
 }
 
-/* Responsive */
 @media (max-width: 640px) {
-    .form-cita, .form-gestion { grid-template-columns: 1fr; }
+    .form-recordatorio { flex-direction: column; align-items: stretch; }
 }
