@@ -54,59 +54,6 @@ if (isset($_GET['mensaje'])) {
     <main>
         <?php echo $mensajeHtml; ?>
 
-        <h2>Registrar Atención en Historial Clínico</h2>
-        <form action="../php/procesar/procesar_historial.php" method="POST">
-            <div>
-                <label for="id_paciente">Paciente *</label>
-                <select id="id_paciente" name="id_paciente" required>
-                    <option value="">Seleccione un paciente</option>
-                    <?php foreach ($pacientes as $pac): ?>
-                        <option value="<?php echo $pac['id_paciente']; ?>" <?php echo ($id_paciente === intval($pac['id_paciente'])) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($pac['nombres'] . ' ' . $pac['apellidos']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div>
-                <label for="id_odontologo">Odontólogo *</label>
-                <select id="id_odontologo" name="id_odontologo" required>
-                    <option value="">Seleccione un odontólogo</option>
-                    <?php foreach ($odontologos as $odo): ?>
-                        <option value="<?php echo $odo['id_odontologo']; ?>">
-                            Dr./Dra. <?php echo htmlspecialchars($odo['nombres'] . ' ' . $odo['apellidos']); ?> (<?php echo htmlspecialchars($odo['especialidad']); ?>)
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div>
-                <label>Fecha de atención *</label>
-                <div style="display: flex; gap: 20px; margin-top: 8px;">
-                    <label style="font-weight: normal; color: #263544; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="radio" name="tipo_fecha" value="hoy" checked id="radio_fecha_hoy"> Hoy (<?php echo date('d/m/Y'); ?>)
-                    </label>
-                    <label style="font-weight: normal; color: #263544; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="radio" name="tipo_fecha" value="otra" id="radio_fecha_otra"> Elegir otra fecha
-                    </label>
-                </div>
-                <div id="contenedorFechaAtencion" class="contenedor-fecha-custom">
-                    <input type="date" id="fecha_atencion" name="fecha_atencion" value="<?php echo date('Y-m-d'); ?>">
-                </div>
-            </div>
-            <div>
-                <label for="tratamiento">Tratamiento *</label>
-                <input type="text" id="tratamiento" name="tratamiento" placeholder="Ej. Limpieza dental, extracción..." required>
-            </div>
-            <div class="campo-completo">
-                <label for="diagnostico">Diagnóstico</label>
-                <textarea id="diagnostico" name="diagnostico" placeholder="Diagnóstico del odontólogo"></textarea>
-            </div>
-            <div class="campo-completo">
-                <label for="observaciones">Observaciones</label>
-                <textarea id="observaciones" name="observaciones" placeholder="Observaciones adicionales"></textarea>
-            </div>
-            <button type="submit">Guardar en Historial</button>
-        </form>
-
         <h2>Buscar Historial por Paciente</h2>
         <form action="../php/procesar/procesar_historial.php" method="GET" style="grid-template-columns: 2fr 2fr auto; align-items: end;">
             <div>
@@ -175,6 +122,59 @@ if (isset($_GET['mensaje'])) {
                 <p>Seleccione un paciente arriba para visualizar su historial clínico dental completo.</p>
             </div>
         <?php endif; ?>
+
+        <h2 style="margin-top: 50px;">Registrar Atención en Historial Clínico</h2>
+        <form action="../php/procesar/procesar_historial.php" method="POST">
+            <div>
+                <label for="id_paciente">Paciente *</label>
+                <select id="id_paciente" name="id_paciente" required>
+                    <option value="">Seleccione un paciente</option>
+                    <?php foreach ($pacientes as $pac): ?>
+                        <option value="<?php echo $pac['id_paciente']; ?>" <?php echo ($id_paciente === intval($pac['id_paciente'])) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($pac['nombres'] . ' ' . $pac['apellidos']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div>
+                <label for="id_odontologo">Odontólogo *</label>
+                <select id="id_odontologo" name="id_odontologo" required>
+                    <option value="">Seleccione un odontólogo</option>
+                    <?php foreach ($odontologos as $odo): ?>
+                        <option value="<?php echo $odo['id_odontologo']; ?>">
+                            Dr./Dra. <?php echo htmlspecialchars($odo['nombres'] . ' ' . $odo['apellidos']); ?> (<?php echo htmlspecialchars($odo['especialidad']); ?>)
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div>
+                <label>Fecha de atención *</label>
+                <div style="display: flex; gap: 20px; margin-top: 8px;">
+                    <label style="font-weight: normal; color: #263544; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="radio" name="tipo_fecha" value="hoy" checked id="radio_fecha_hoy"> Hoy (<?php echo date('d/m/Y'); ?>)
+                    </label>
+                    <label style="font-weight: normal; color: #263544; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="radio" name="tipo_fecha" value="otra" id="radio_fecha_otra"> Elegir otra fecha
+                    </label>
+                </div>
+                <div id="contenedorFechaAtencion" class="contenedor-fecha-custom">
+                    <input type="date" id="fecha_atencion" name="fecha_atencion" value="<?php echo date('Y-m-d'); ?>">
+                </div>
+            </div>
+            <div>
+                <label for="tratamiento">Tratamiento *</label>
+                <input type="text" id="tratamiento" name="tratamiento" placeholder="Ej. Limpieza dental, extracción..." required>
+            </div>
+            <div class="campo-completo">
+                <label for="diagnostico">Diagnóstico</label>
+                <textarea id="diagnostico" name="diagnostico" placeholder="Diagnóstico del odontólogo"></textarea>
+            </div>
+            <div class="campo-completo">
+                <label for="observaciones">Observaciones</label>
+                <textarea id="observaciones" name="observaciones" placeholder="Observaciones adicionales"></textarea>
+            </div>
+            <button type="submit">Guardar en Historial</button>
+        </form>
     </main>
 
     <!-- Modal Ver Detalle Historial Clínico -->
