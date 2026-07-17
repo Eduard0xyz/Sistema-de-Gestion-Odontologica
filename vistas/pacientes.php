@@ -1,4 +1,17 @@
-<?php $paginaActiva = 'pacientes'; ?>
+<?php 
+$paginaActiva = 'pacientes';
+require_once '../php/clases/paciente.php';
+
+$paciente = new Paciente();
+
+$criterioBusqueda = isset($_GET['criterio']) ? trim($_GET['criterio']) : '';
+
+if ($criterioBusqueda !== '') {
+    $listaPacientes = $paciente->buscarPaciente($criterioBusqueda);
+} else {
+    $listaPacientes = $paciente->listarPacientes();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,14 +24,25 @@
     <?php include 'incluir/header.php'; ?>
 
     <main>
+        <?php if (isset($_GET['msg'])): ?>
+            <?php if ($_GET['msg'] === 'ok'): ?>
+                <p class="mensaje mensaje-exito">Paciente registrado correctamente.</p>
+            <?php elseif ($_GET['msg'] === 'error'): ?>
+                <p class="mensaje mensaje-error">Ocurrió un error al registrar el paciente. Verifica que el DNI no esté repetido.</p>
+            <?php endif; ?>
+        <?php endif; ?>
+
         <h2>Buscar Paciente</h2>
         <form action="../php/procesar/procesar_paciente.php" method="GET" style="grid-template-columns: 3fr 1fr;">
             <div>
                 <label for="criterio">Buscar por DNI o Apellido</label>
-                <input type="text" id="criterio" name="criterio" placeholder="Ingrese DNI o apellido">
+                <input type="text" id="criterio" name="criterio" placeholder="Ingrese DNI o apellido" value="<?php echo htmlspecialchars($criterioBusqueda); ?>">
             </div>
             <button type="submit" style="grid-column:auto; align-self:end;">Buscar</button>
         </form>
+        <?php if ($criterioBusqueda !== ''): ?>
+            <p><a href="pacientes.php">← Ver todos los pacientes</a></p>
+        <?php endif; ?>
 
         <h2>Registrar Paciente</h2>
         <form action="../php/procesar/procesar_paciente.php" method="POST">
@@ -66,22 +90,24 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>71234567</td>
-                    <td>Piero</td>
-                    <td>Avelino Martin</td>
-                    <td>987654321</td>
-                    <td>piero.avelino@correo.com</td>
-                    <td><a href="historial.php">Ver historial</a></td>
-                </tr>
-                <tr>
-                    <td>76543210</td>
-                    <td>Chichiko</td>
-                    <td>Velde</td>
-                    <td>912345678</td>
-                    <td>chichiko.velde@correo.com</td>
-                    <td><a href="historial.php">Ver historial</a></td>
-                </tr>
+                <?php if (count($listaPacientes) === 0): ?>
+                    <tr>
+                        <td colspan="6">No se encontraron pacientes.</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($listaPacientes as $p): ?>
+                        <tr>
+                            <td data-label="DNI"><?php echo htmlspecialchars($p['dni']); ?></td>
+                            <td data-label="Nombres"><?php echo htmlspecialchars($p['nombres']); ?></td>
+                            <td data-label="Apellidos"><?php echo htmlspecialchars($p['apellidos']); ?></td>
+                            <td data-label="Teléfono"><?php echo htmlspecialchars($p['telefono']); ?></td>
+                            <td data-label="Correo"><?php echo htmlspecialchars($p['correo']); ?></td>
+                            <td data-label="Acciones">
+                                <a href="historial.php?id_paciente=<?php echo $p['id_paciente']; ?>">Ver historial</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </main>
