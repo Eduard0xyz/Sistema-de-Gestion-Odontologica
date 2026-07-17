@@ -12,7 +12,12 @@ if (isset($_GET['mensaje'])) {
         $mensaje = '<div class="mensaje-exito">Odontólogo registrado correctamente</div>';
     } elseif ($_GET['mensaje'] === 'error') {
         $mensaje = '<div class="mensaje-error">Error al registrar el odontólogo</div>';
+    }elseif ($_GET['mensaje'] === 'horario_exito') {
+        $mensaje = '<div class="mensaje-exito">Horario asignado correctamente</div>';
+    } elseif ($_GET['mensaje'] === 'horario_error') {
+        $mensaje = '<div class="mensaje-error">Error al asignar el horario. Verifica que no se esté duplicando un turno exacto.</div>';
     }
+        
 }
 ?>
 <!DOCTYPE html>
@@ -59,6 +64,49 @@ if (isset($_GET['mensaje'])) {
             </div>
             <button type="submit">Registrar Odontólogo</button>
         </form>
+
+        <?php echo $mensaje; ?>
+        
+       <h2>Asignar Horario a Odontólogo</h2>
+        <form action="../php/procesar/procesar_horario.php" method="POST" style="grid-template-columns: 1fr 1fr;">
+            <div>
+                <label for="id_odontologo_horario">Odontólogo</label>
+                <select id="id_odontologo_horario" name="id_odontologo" required>
+                    <option value="">Seleccione un odontólogo...</option>
+                    <?php foreach ($odontologos as $odo): ?>
+                        <option value="<?php echo $odo['id_odontologo']; ?>">
+                            Dr./Dra. <?php echo htmlspecialchars($odo['nombres'] . ' ' . $odo['apellidos']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div>
+                <label for="dia_semana">Día de la semana</label>
+                <select id="dia_semana" name="dia_semana" required>
+                    <option value="1">Lunes</option>
+                    <option value="2">Martes</option>
+                    <option value="3">Miércoles</option>
+                    <option value="4">Jueves</option>
+                    <option value="5">Viernes</option>
+                    <option value="6">Sábado</option>
+                    <option value="7">Domingo</option>
+                </select>
+            </div>
+            <div>
+                <label for="hora_inicio">Hora de inicio</label>
+                <input type="time" id="hora_inicio" name="hora_inicio" required>
+            </div>
+            <div>
+                <label for="hora_fin">Hora de fin</label>
+                <input type="time" id="hora_fin" name="hora_fin" required>
+            </div>
+            <div class="campo-completo">
+                <label for="tipo_turno">Tipo de Turno (Ej. Consulta general, Cirugía)</label>
+                <input type="text" id="tipo_turno" name="tipo_turno" value="Consulta general" required>
+            </div>
+            <button type="submit" style="grid-column: 1 / span 2;">Guardar Horario</button>
+        </form>
+        
 
         <h2>Consultar Agenda del Odontólogo</h2>
 

@@ -61,3 +61,19 @@ create table recordatorio (
     estado enum('Pendiente','Enviado','Fallido') default 'Pendiente',
     foreign key (id_cita) references cita(id_cita)
 );
+
+create table horarios_odontologos (
+    id_horario_odont int auto_increment primary key,
+    id_odontologo int not null,
+    dia_semana tinyint unsigned not null comment '1=lunes, 2=martes, 3=miércoles, 4=jueves, 5=viernes, 6=sábado, 7=domingo',
+    hora_inicio time not null,
+    hora_fin time not null,
+    tipo_turno varchar(50) default 'consulta',
+    activo boolean default true,
+    
+    constraint fk_horario_odontologo foreign key (id_odontologo) references odontologo(id_odontologo),
+    -- verfica que los días esten entre 1 y 7
+    constraint chk_dia_semana check (dia_semana between 1 and 7),
+    -- evitar duplicidad de horarios
+    constraint uk_horario_duplicado unique (id_odontologo, dia_semana, hora_inicio, hora_fin)
+);
