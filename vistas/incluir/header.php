@@ -10,6 +10,7 @@
                 <li><a href="odontologo.php" <?php echo ($paginaActiva == 'odontologos') ? 'class="activo"' : ''; ?>>Odontólogos</a></li>
                 <li><a href="citas.php" <?php echo ($paginaActiva == 'citas') ? 'class="activo"' : ''; ?>>Citas</a></li>
                 <li><a href="historial.php" <?php echo ($paginaActiva == 'historial') ? 'class="activo"' : ''; ?>>Historial Clínico</a></li>
+                <li><a href="recordatorio.php" <?php echo ($paginaActiva == 'recordatorios') ? 'class="activo"' : ''; ?>>Recordatorios</a></li>
             </ul>
             <div class="auth-buttons">
                 <a href="login.php" class="btn-login">Iniciar Sesión</a>
