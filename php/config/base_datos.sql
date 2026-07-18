@@ -40,16 +40,17 @@ CREATE TABLE cita (
     FOREIGN KEY (id_odontologo) REFERENCES odontologo(id_odontologo)
 );
 
-CREATE TABLE historial_clinico (
-    id_historial INT AUTO_INCREMENT PRIMARY KEY,
-    id_paciente INT NOT NULL,
-    id_odontologo INT NOT NULL,
-    fecha_atencion DATE NOT NULL,
-    diagnostico TEXT,
-    observaciones TEXT,
-    tratamiento VARCHAR(200),
-    FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente),
-    FOREIGN KEY (id_odontologo) REFERENCES odontologo(id_odontologo)
+create table historial_clinico (
+    id_historial int auto_increment primary key,
+    id_paciente int not null,
+    id_odontologo int not null,
+    fecha_atencion date not null,
+    hora time default null,
+    diagnostico text,
+    observaciones text,
+    tratamiento varchar(200),
+    foreign key (id_paciente) references paciente(id_paciente),
+    foreign key (id_odontologo) references odontologo(id_odontologo)
 );
 
 CREATE TABLE recordatorio (
