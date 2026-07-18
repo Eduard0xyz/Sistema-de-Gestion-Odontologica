@@ -46,6 +46,7 @@ create table historial_clinico (
     id_paciente int not null,
     id_odontologo int not null,
     fecha_atencion date not null,
+    hora time default null,
     diagnostico text,
     observaciones text,
     tratamiento varchar(200),
