@@ -14,6 +14,7 @@ class HistorialClinico {
     public $id_paciente;
     public $id_odontologo;
     public $fecha_atencion;
+    public $hora;
     public $diagnostico;
     public $observaciones;
     public $tratamiento;
@@ -28,8 +29,8 @@ class HistorialClinico {
      */
     public function registrarHistorial() {
         $sql = "INSERT INTO historial_clinico
-                (id_paciente, id_odontologo, fecha_atencion, diagnostico, observaciones, tratamiento)
-                VALUES (:id_paciente, :id_odontologo, :fecha_atencion, :diagnostico, :observaciones, :tratamiento)";
+                (id_paciente, id_odontologo, fecha_atencion, hora, diagnostico, observaciones, tratamiento)
+                VALUES (:id_paciente, :id_odontologo, :fecha_atencion, CURRENT_TIME, :diagnostico, :observaciones, :tratamiento)";
         $stmt = $this->conexion->prepare($sql);
         $stmt->bindParam(':id_paciente', $this->id_paciente);
         $stmt->bindParam(':id_odontologo', $this->id_odontologo);
@@ -49,7 +50,7 @@ class HistorialClinico {
                 FROM historial_clinico h
                 INNER JOIN odontologo o ON h.id_odontologo = o.id_odontologo
                 WHERE h.id_paciente = :id_paciente
-                ORDER BY h.fecha_atencion DESC";
+                ORDER BY h.fecha_atencion DESC, h.hora DESC";
         $stmt = $this->conexion->prepare($sql);
         $stmt->bindParam(':id_paciente', $id_paciente);
         $stmt->execute();
@@ -63,12 +64,13 @@ class HistorialClinico {
      */
     public function actualizarHistorial() {
         $sql = "UPDATE historial_clinico
-                SET diagnostico = :diagnostico, observaciones = :observaciones, tratamiento = :tratamiento
+                SET diagnostico = :diagnostico, observaciones = :observaciones, tratamiento = :tratamiento, hora = :hora
                 WHERE id_historial = :id_historial";
         $stmt = $this->conexion->prepare($sql);
         $stmt->bindParam(':diagnostico', $this->diagnostico);
         $stmt->bindParam(':observaciones', $this->observaciones);
         $stmt->bindParam(':tratamiento', $this->tratamiento);
+        $stmt->bindParam(':hora', $this->hora);
         $stmt->bindParam(':id_historial', $this->id_historial);
 
         return $stmt->execute();

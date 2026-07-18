@@ -79,9 +79,9 @@ if (isset($_GET['mensaje'])) {
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 15%;">Fecha</th>
-                        <th style="width: 30%;">Odontólogo</th>
-                        <th style="width: 40%;">Tratamiento</th>
+                        <th style="width: 20%;">Fecha / Hora</th>
+                        <th style="width: 28%;">Odontólogo</th>
+                        <th style="width: 37%;">Tratamiento</th>
                         <th style="width: 15%; text-align: center;">Acciones</th>
                     </tr>
                 </thead>
@@ -94,16 +94,18 @@ if (isset($_GET['mensaje'])) {
                         <?php foreach ($historiales as $h): ?>
                             <?php 
                             $fechaFmt = date('d/m/Y', strtotime($h['fecha_atencion']));
+                            $horaFmt = !empty($h['hora']) ? date('H:i', strtotime($h['hora'])) : '';
                             $odoNombre = 'Dr./Dra. ' . htmlspecialchars($h['odontologo_nombres'] . ' ' . $h['odontologo_apellidos']);
                             $pacNombre = htmlspecialchars($pacienteSeleccionado['nombres'] . ' ' . $pacienteSeleccionado['apellidos']);
                             ?>
                             <tr>
-                                <td><?php echo $fechaFmt; ?></td>
+                                <td><?php echo $fechaFmt . ($horaFmt ? " <span class=\"hora-tabla\">$horaFmt</span>" : ''); ?></td>
                                 <td><?php echo $odoNombre; ?></td>
                                 <td><?php echo htmlspecialchars($h['tratamiento']); ?></td>
                                 <td style="text-align: center;">
                                     <button class="btn-ver-detalle" 
                                             data-fecha="<?php echo $fechaFmt; ?>"
+                                            data-hora="<?php echo $horaFmt; ?>"
                                             data-paciente="<?php echo $pacNombre; ?>"
                                             data-odontologo="<?php echo $odoNombre; ?>"
                                             data-tratamiento="<?php echo htmlspecialchars($h['tratamiento']); ?>"
@@ -193,6 +195,10 @@ if (isset($_GET['mensaje'])) {
                     <label>Fecha de Atención</label>
                     <div id="modalFecha"></div>
                 </div>
+                <div class="modal-field">
+                    <label>Hora</label>
+                    <div id="modalHora"></div>
+                </div>
                 <div class="modal-field full-width">
                     <label>Odontólogo Tratante</label>
                     <div id="modalOdontologo"></div>
@@ -227,6 +233,7 @@ if (isset($_GET['mensaje'])) {
             // Modal fields
             const mPaciente = document.getElementById('modalPaciente');
             const mFecha = document.getElementById('modalFecha');
+            const mHora = document.getElementById('modalHora');
             const mOdontologo = document.getElementById('modalOdontologo');
             const mTratamiento = document.getElementById('modalTratamiento');
             const mDiagnostico = document.getElementById('modalDiagnostico');
@@ -237,6 +244,7 @@ if (isset($_GET['mensaje'])) {
                 btn.addEventListener('click', () => {
                     mPaciente.textContent = btn.getAttribute('data-paciente');
                     mFecha.textContent = btn.getAttribute('data-fecha');
+                    mHora.textContent = btn.getAttribute('data-hora') || '--:--';
                     mOdontologo.textContent = btn.getAttribute('data-odontologo');
                     mTratamiento.textContent = btn.getAttribute('data-tratamiento');
                     mDiagnostico.textContent = btn.getAttribute('data-diagnostico');
