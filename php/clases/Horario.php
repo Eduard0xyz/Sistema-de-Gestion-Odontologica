@@ -29,9 +29,22 @@ class Horario {
 
             return $stmt->execute();
         } catch (PDOException $e) {
-            // Para la restricción UNIQUE en la base
+            // Para la restricción UNIQUE de la BD
             return false; 
         }
+    }
+
+    public function obtenerHorarioPorOdontologo($id_odontologo) {
+        $sql = "SELECT id_odontologo, dia_semana, hora_inicio, hora_fin, tipo_turno 
+                FROM horarios_odontologos 
+                WHERE id_odontologo = :id_odontologo AND activo = TRUE 
+                ORDER BY dia_semana ASC, hora_inicio ASC";
+        
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bindParam(':id_odontologo', $id_odontologo);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
     }
 }
 ?>
