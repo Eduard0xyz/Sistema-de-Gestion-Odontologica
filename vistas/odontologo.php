@@ -2,9 +2,36 @@
 $paginaActiva = 'odontologos'; 
 
 require_once __DIR__ . '/../php/clases/Odontologo.php';
+require_once __DIR__ . '/../php/clases/Horario.php';
 
 $odontologo = new Odontologo();
 $odontologos = $odontologo->listarOdontologos();
+// variables
+$horarios_mostrados = [];
+$nombre_doctor_mostrado = '';
+$horario_agrupado = []; 
+
+
+
+$dias_semana_nombres = [1 => 'Lunes', 2 => 'Martes', 3 => 'Miércoles', 4 => 'Jueves', 5 => 'Viernes', 6 => 'Sábado', 7 => 'Domingo'];
+
+if (isset($_GET['ver_id_odontologo']) && !empty($_GET['ver_id_odontologo'])) {
+    $horarioObj = new Horario();
+    $horarios_mostrados = $horarioObj->obtenerHorarioPorOdontologo($_GET['ver_id_odontologo']);
+    
+    foreach ($odontologos as $odo) {
+        if ($odo['id_odontologo'] == $_GET['ver_id_odontologo']) {
+            $nombre_doctor_mostrado = $odo['nombres'] . ' ' . $odo['apellidos'];
+            break;
+        }
+    }
+
+    foreach ($horarios_mostrados as $turno) {
+        $horario_agrupado[$turno['dia_semana']][] = $turno; 
+    }
+}
+
+
 
 $mensaje = '';
 if (isset($_GET['mensaje'])) {
@@ -17,6 +44,7 @@ if (isset($_GET['mensaje'])) {
     } elseif ($_GET['mensaje'] === 'horario_error') {
         $mensaje = '<div class="mensaje-error">Error al asignar el horario. Verifica que no se esté duplicando un turno exacto.</div>';
     }
+
         
 }
 ?>
@@ -27,6 +55,7 @@ if (isset($_GET['mensaje'])) {
     <title>Odontólogos - Sistema de Gestión Odontológica</title>
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/odontologos.css">
+    <link rel="stylesheet" href="../css/horario.css">
 </head>
 <body>
     <?php include 'incluir/header.php'; ?>
@@ -106,35 +135,60 @@ if (isset($_GET['mensaje'])) {
             </div>
             <button type="submit" style="grid-column: 1 / span 2;">Guardar Horario</button>
         </form>
-        
 
-        <h2>Consultar Agenda del Odontólogo</h2>
 
-        <form action="../php/procesar/controladorOdontologo.php" method="GET" style="grid-template-columns: 1fr 1fr 1fr;">
+
+        <h2>Ver Horario Semanal</h2>
+        <!-- Formulario para seleccionar doctor -->
+        <form action="odontologo.php" method="GET" style="grid-template-columns: 1fr auto;">
             <div>
-                <label for="id_odontologo">Odontólogo</label>
-                <select id="id_odontologo" name="id_odontologo">
-                    <?php if (empty($odontologos)): ?>
-                        <option value="">No hay odontólogos registrados</option>
-                    <?php else: ?>
-                        <?php foreach ($odontologos as $odo): ?>
-                            <option value="<?php echo $odo['id_odontologo']; ?>">
-                                Dr./Dra. <?php echo htmlspecialchars($odo['nombres'] . ' ' . $odo['apellidos']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                <label for="ver_id_odontologo">Seleccionar Odontólogo</label>
+                <select id="ver_id_odontologo" name="ver_id_odontologo" required>
+                    <option value="">Seleccione un odontólogo...</option>
+                    <?php foreach ($odontologos as $odo): ?>
+                        <option value="<?php echo $odo['id_odontologo']; ?>" <?php echo (isset($_GET['ver_id_odontologo']) && $_GET['ver_id_odontologo'] == $odo['id_odontologo']) ? 'selected' : ''; ?>>
+                            Dr./Dra. <?php echo htmlspecialchars($odo['nombres'] . ' ' . $odo['apellidos']); ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
-            <div>
-                <label for="fecha_inicio">Desde</label>
-                <input type="date" id="fecha_inicio" name="fecha_inicio">
-            </div>
-            <div>
-                <label for="fecha_fin">Hasta</label>
-                <input type="date" id="fecha_fin" name="fecha_fin">
-            </div>
-            <button type="submit" style="grid-column: 1 / span 3;">Consultar Agenda</button>
+            <button type="submit" style="align-self: end; margin-bottom: 5px;">Ver Horario</button>
         </form>
+
+
+        <?php if (isset($_GET['ver_id_odontologo'])): ?>
+            <h3>Horario de: Dr./Dra. <?php echo htmlspecialchars($nombre_doctor_mostrado); ?></h3>
+            
+            <div class="horario-timeline-grid">
+                
+                <?php for ($i = 1; $i <= 7; $i++): ?>
+                    <div class="dia-columna">
+                        <div class="dia-header"><?php echo $dias_semana_nombres[$i]; ?></div>
+                        
+                        <?php if (isset($horario_agrupado[$i]) && !empty($horario_agrupado[$i])): ?>
+                            
+                            <?php foreach ($horario_agrupado[$i] as $h): ?>
+                                <div class="bloque-turno">
+                                    <span class="turno-hora">
+                                        <?php 
+                                            echo date('H:i', strtotime($h['hora_inicio'])) . ' - ' . date('H:i', strtotime($h['hora_fin'])); 
+                                        ?>
+                                    </span>
+                                    <span class="turno-tipo">
+                                        <?php echo htmlspecialchars($h['tipo_turno']); ?>
+                                    </span>
+                                </div>
+                            <?php endforeach; ?>
+
+                        <?php else: ?>
+                            <div class="dia-vacio">Sin turnos</div>
+                        <?php endif; ?>
+                    </div>
+                <?php endfor; ?>
+
+            </div> 
+        <?php endif; ?>
+
 
         <h2>Lista de Odontólogos</h2>
         <table>
