@@ -1,5 +1,10 @@
 <?php
-// Redirige automáticamente a la página de inicio del sistema
-// Sistema de Gestión Odontológica
-header('Location: vistas/index.php');
+session_start();
+
+if (isset($_SESSION['rol'])) {
+    header('Location: vistas/index.php');
+} else {
+    header('Location: vistas/login.php');
+}
 exit;
+?>
